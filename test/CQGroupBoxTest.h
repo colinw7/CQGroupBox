@@ -6,5 +6,5 @@ class CQGroupBoxTest : public QDialog {
   Q_OBJECT
 
  public:
-  CQGroupBoxTest(bool checkable, bool line);
+  CQGroupBoxTest(bool checkable, bool collapse, bool line);
 };

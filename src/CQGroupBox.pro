@@ -6,14 +6,17 @@ QT += widgets
 
 DEPENDPATH += .
 
-CONFIG += staticlib
+QMAKE_CXXFLAGS += -std=c++14
 
-# Input
-HEADERS += \
-../include/CQGroupBox.h \
+MOC_DIR = .moc
+
+CONFIG += staticlib
 
 SOURCES += \
 CQGroupBox.cpp \
+
+HEADERS += \
+../include/CQGroupBox.h \
 
 OBJECTS_DIR = ../obj
 
