@@ -5,34 +5,44 @@
 
 class CQGroupBoxArea;
 
+/*!
+ * \brief Custom groupbox supporting custom title and line drawing and collapse
+ */
 class CQGroupBox : public QWidget {
   Q_OBJECT
 
   // title
-  Q_PROPERTY(QString title               READ title               WRITE setTitle              )
-  Q_PROPERTY(bool    titleBold           READ isTitleBold         WRITE setTitleBold          )
-  Q_PROPERTY(double  titleScale          READ titleScale          WRITE setTitleScale         )
-  Q_PROPERTY(int     titleAlignment      READ titleAlignment      WRITE setTitleAlignment     )
+  Q_PROPERTY(QString       title           READ title         WRITE setTitle         )
+  Q_PROPERTY(bool          titleBold      READ isTitleBold    WRITE setTitleBold     )
+  Q_PROPERTY(double        titleScale     READ titleScale     WRITE setTitleScale    )
+  Q_PROPERTY(Qt::Alignment titleAlignment READ titleAlignment WRITE setTitleAlignment)
+
   // line top/bottom
-  Q_PROPERTY(bool    lineTop             READ hasLineTop          WRITE setHasLineTop         )
-  Q_PROPERTY(bool    lineBottom          READ hasLineBottom       WRITE setHasLineBottom      )
-  Q_PROPERTY(int     lineTopAlignment    READ lineTopAlignment    WRITE setLineTopAlignment   )
-  Q_PROPERTY(int     lineBottomAlignment READ lineBottomAlignment WRITE setLineBottomAlignment)
+  Q_PROPERTY(bool          lineTop
+             READ hasLineTop          WRITE setHasLineTop         )
+  Q_PROPERTY(bool          lineBottom
+             READ hasLineBottom       WRITE setHasLineBottom      )
+  Q_PROPERTY(Qt::Alignment lineTopAlignment
+             READ lineTopAlignment    WRITE setLineTopAlignment   )
+  Q_PROPERTY(Qt::Alignment lineBottomAlignment
+             READ lineBottomAlignment WRITE setLineBottomAlignment)
   // margins
-  Q_PROPERTY(int     marginLeft          READ marginLeft          WRITE setMarginLeft         )
-  Q_PROPERTY(int     marginRight         READ marginRight         WRITE setMarginRight        )
-  Q_PROPERTY(int     marginBottom        READ marginBottom        WRITE setMarginBottom       )
-  Q_PROPERTY(int     marginTop           READ marginTop           WRITE setMarginTop          )
+  Q_PROPERTY(int marginLeft   READ marginLeft   WRITE setMarginLeft  )
+  Q_PROPERTY(int marginRight  READ marginRight  WRITE setMarginRight )
+  Q_PROPERTY(int marginBottom READ marginBottom WRITE setMarginBottom)
+  Q_PROPERTY(int marginTop    READ marginTop    WRITE setMarginTop   )
+
   // check
-  Q_PROPERTY(bool    checkable           READ isCheckable         WRITE setCheckable          )
-  Q_PROPERTY(bool    checked             READ isChecked           WRITE setChecked            )
+  Q_PROPERTY(bool checkable READ isCheckable WRITE setCheckable)
+  Q_PROPERTY(bool checked   READ isChecked   WRITE setChecked  )
+
   // collapse
-  Q_PROPERTY(bool    collapsible         READ isCollapsible       WRITE setCollapsible        )
-  Q_PROPERTY(bool    collapsed           READ isCollapsed         WRITE setCollapsed          )
+  Q_PROPERTY(bool collapsible READ isCollapsible WRITE setCollapsible)
+  Q_PROPERTY(bool collapsed   READ isCollapsed   WRITE setCollapsed  )
 
  public:
-  CQGroupBox(QWidget *parent=0);
-  CQGroupBox(const QString &title, QWidget *parent=0);
+  CQGroupBox(QWidget *parent=nullptr);
+  CQGroupBox(const QString &title, QWidget *parent=nullptr);
 
   ~CQGroupBox();
 
@@ -45,8 +55,8 @@ class CQGroupBox : public QWidget {
   double titleScale() const { return titleScale_; }
   void setTitleScale(double scale);
 
-  Qt::Alignment titleAlignment() const { return Qt::Alignment(titleAlignment_); }
-  void setTitleAlignment(int alignment);
+  Qt::Alignment titleAlignment() const { return titleAlignment_; }
+  void setTitleAlignment(Qt::Alignment alignment);
 
   bool hasLineTop() const { return lineTop_; }
   void setHasLineTop(bool line);
@@ -54,11 +64,11 @@ class CQGroupBox : public QWidget {
   bool hasLineBottom() const { return lineBottom_; }
   void setHasLineBottom(bool line);
 
-  Qt::Alignment lineTopAlignment() const { return Qt::Alignment(lineTopAlignment_   ); }
-  void setLineTopAlignment(int alignment);
+  Qt::Alignment lineTopAlignment() const { return lineTopAlignment_; }
+  void setLineTopAlignment(Qt::Alignment alignment);
 
-  Qt::Alignment lineBottomAlignment() const { return Qt::Alignment(lineBottomAlignment_); }
-  void setLineBottomAlignment(int alignment);
+  Qt::Alignment lineBottomAlignment() const { return lineBottomAlignment_; }
+  void setLineBottomAlignment(Qt::Alignment alignment);
 
   int marginLeft() const { return marginLeft_; }
   void setMarginLeft(int margin);
@@ -81,6 +91,9 @@ class CQGroupBox : public QWidget {
   void setCollapsible(bool collapsible);
 
   bool isCollapsed() const { return collapsed_; }
+
+  QSize sizeHint() const;
+  QSize minimumSizeHint() const;
 
  private:
   void init();
@@ -106,9 +119,6 @@ class CQGroupBox : public QWidget {
 
   void resizeEvent(QResizeEvent *e);
 
-  QSize sizeHint() const;
-  QSize minimumSizeHint() const;
-
   int spaceTop() const;
   int spaceBottom() const;
 
@@ -133,15 +143,15 @@ class CQGroupBox : public QWidget {
   QString         title_;
   bool            titleBold_      { true };
   double          titleScale_     { 1.0 };
-  int             titleAlignment_ { Qt::AlignLeft | Qt::AlignBottom };
+  Qt::Alignment   titleAlignment_ { Qt::AlignLeft | Qt::AlignBottom };
 
   bool            lineTop_             { false };
   bool            lineBottom_          { true };
-  int             lineTopAlignment_    { Qt::AlignBottom };
-  int             lineBottomAlignment_ { Qt::AlignVCenter };
+  Qt::Alignment   lineTopAlignment_    { Qt::AlignBottom };
+  Qt::Alignment   lineBottomAlignment_ { Qt::AlignVCenter };
 
-  int             marginLeft_   { 4 };
-  int             marginRight_  { 4 };
+  int             marginLeft_   { 6 };
+  int             marginRight_  { 2 };
   int             marginBottom_ { -1 };
   int             marginTop_    { -1 };
 

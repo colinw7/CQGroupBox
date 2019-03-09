@@ -5,6 +5,7 @@
 #include <QStylePainter>
 #include <QStyleOption>
 #include <QMouseEvent>
+#include <cmath>
 
 CQGroupBox::
 CQGroupBox(QWidget *parent) :
@@ -88,7 +89,7 @@ setTitleScale(double scale)
 
 void
 CQGroupBox::
-setTitleAlignment(int alignment)
+setTitleAlignment(Qt::Alignment alignment)
 {
   titleAlignment_ = alignment;
 
@@ -115,7 +116,7 @@ setHasLineBottom(bool line)
 
 void
 CQGroupBox::
-setLineTopAlignment(int alignment)
+setLineTopAlignment(Qt::Alignment alignment)
 {
   lineTopAlignment_ = alignment;
 
@@ -124,7 +125,7 @@ setLineTopAlignment(int alignment)
 
 void
 CQGroupBox::
-setLineBottomAlignment(int alignment)
+setLineBottomAlignment(Qt::Alignment alignment)
 {
   lineBottomAlignment_ = alignment;
 
@@ -137,6 +138,8 @@ setMarginLeft(int margin)
 {
   marginLeft_ = margin;
 
+  calculateFrame();
+
   update();
 }
 
@@ -145,6 +148,8 @@ CQGroupBox::
 setMarginRight(int margin)
 {
   marginRight_ = margin;
+
+  calculateFrame();
 
   update();
 }
@@ -155,6 +160,8 @@ setMarginBottom(int margin)
 {
   marginBottom_ = margin;
 
+  calculateFrame();
+
   update();
 }
 
@@ -163,6 +170,8 @@ CQGroupBox::
 setMarginTop(int margin)
 {
   marginTop_ = margin;
+
+  calculateFrame();
 
   update();
 }
@@ -280,6 +289,8 @@ event(QEvent *e)
 
         checkPress_ = false;
 
+        emit clicked(isChecked());
+
         update();
 
         return true;
@@ -371,6 +382,8 @@ mouseReleaseEvent(QMouseEvent *e)
 
       checkPress_ = false;
 
+      emit clicked(isChecked());
+
       update();
     }
   }
@@ -397,6 +410,8 @@ paintEvent(QPaintEvent *)
   QPainter p(this);
 
   p.setRenderHints(QPainter::Antialiasing);
+
+  p.fillRect(rect(), QBrush(palette().color(QPalette::Background)));
 
   QFontMetrics fm(titleFont_);
 
@@ -455,9 +470,11 @@ paintEvent(QPaintEvent *)
   if (title_ != "") {
     p.setFont(titleFont_);
 
-    int tw1 = width() - checkSize - collapseSize - 2*dx_;
+    int tw1 = width() - checkSize - collapseSize - 4*dx_;
 
-    titleRect_ = QRect(textX - 2, textY - fm.ascent() + fm.descent(), tw1, fm.height());
+    int tw2 = std::min(tw, tw1);
+
+    titleRect_ = QRect(textX - dx_, textY - fm.ascent() + fm.descent(), tw2 + dx_, fm.height());
 
     p.fillRect(titleRect_, QBrush(palette().color(QPalette::Background)));
 
@@ -702,6 +719,8 @@ void
 CQGroupBox::
 updateEnabled()
 {
+  bool enabled = isEnabled();
+
   QObjectList childList = children();
 
   for (int i = 0; i < childList.size(); ++i) {
@@ -711,15 +730,20 @@ updateEnabled()
 
     QWidget *w = static_cast<QWidget *>(o);
 
-    if (isChecked()) {
-//    if (! w->isEnabled()) {
-//      if (! w->testAttribute(Qt::WA_ForceDisabled))
-          w->setEnabled(true);
-//    }
+    if (isCheckable()) {
+      if (isChecked()) {
+//      if (! w->isEnabled()) {
+//        if (! w->testAttribute(Qt::WA_ForceDisabled))
+            w->setEnabled(true);
+//      }
+      }
+      else {
+//      if (w->isEnabled())
+          w->setEnabled(false);
+      }
     }
     else {
-//    if (w->isEnabled())
-        w->setEnabled(false);
+      w->setEnabled(enabled);
     }
   }
 }
