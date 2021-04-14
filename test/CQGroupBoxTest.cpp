@@ -44,20 +44,22 @@ createGroup(const QString &name, const QString &title=QString(), bool line=false
     box->setMarginBottom(8);
   }
 
-  QVBoxLayout *layout = new QVBoxLayout(box);
+  auto *layout = new QVBoxLayout(box);
 
-  QPushButton *button1 = new QPushButton("Button One");
+  auto *button1 = new QPushButton("Button One");
   button1->setObjectName("button1");
 
-  QPushButton *button2 = new QPushButton("Button Two");
+  auto *button2 = new QPushButton("Button Two");
   button2->setObjectName("button2");
 
-  QPushButton *button3 = new QPushButton("Button Three");
+  auto *button3 = new QPushButton("Button Three");
   button3->setObjectName("button3");
 
   layout->addWidget(button1);
   layout->addWidget(button2);
   layout->addWidget(button3);
+
+  layout->addStretch(1);
 
   return box;
 }
@@ -65,18 +67,18 @@ createGroup(const QString &name, const QString &title=QString(), bool line=false
 QGroupBox *
 createGroupBox(const QString &name, const QString &title=QString())
 {
-  QGroupBox *box = new QGroupBox(title);
+  auto *box = new QGroupBox(title);
   box->setObjectName(name);
 
-  QVBoxLayout *layout = new QVBoxLayout(box);
+  auto *layout = new QVBoxLayout(box);
 
-  QPushButton *button1 = new QPushButton("Button One");
+  auto *button1 = new QPushButton("Button One");
   button1->setObjectName("button1");
 
-  QPushButton *button2 = new QPushButton("Button Two");
+  auto *button2 = new QPushButton("Button Two");
   button2->setObjectName("button2");
 
-  QPushButton *button3 = new QPushButton("Button Three");
+  auto *button3 = new QPushButton("Button Three");
   button3->setObjectName("button3");
 
   layout->addWidget(button1);
@@ -91,10 +93,10 @@ CQGroupBoxTest(bool checkable, bool collapse, bool line)
 {
   setObjectName("test");
 
-  QGridLayout *layout = new QGridLayout(this);
+  auto *layout = new QGridLayout(this);
   layout->setMargin(2); layout->setSpacing(2);
 
-  CQGroupBox *box1 = createGroup("group1", "Group 1", line);
+  auto *box1 = createGroup("group1", "Group 1", line);
 
   box1->setCheckable(checkable);
   box1->setCollapsible(collapse);
@@ -107,7 +109,7 @@ CQGroupBoxTest(bool checkable, bool collapse, bool line)
 
   layout->addWidget(box1, 0, 0);
 
-  CQGroupBox *box2 = createGroup("group2", "Group 2", line);
+  auto *box2 = createGroup("group2", "Group 2", line);
 
   box2->setCheckable(checkable);
   box2->setCollapsible(collapse);
@@ -120,7 +122,7 @@ CQGroupBoxTest(bool checkable, bool collapse, bool line)
 
   layout->addWidget(box2, 0, 1);
 
-  CQGroupBox *box3 = createGroup("group3", "Group 3", line);
+  auto *box3 = createGroup("group3", "Group 3", line);
 
   box3->setCheckable(checkable);
   box3->setCollapsible(collapse);
@@ -137,7 +139,7 @@ CQGroupBoxTest(bool checkable, bool collapse, bool line)
 
   //---
 
-  CQGroupBox *box4 = createGroup("group4", "", line);
+  auto *box4 = createGroup("group4", "", line);
 
   box4->setCheckable(checkable);
   box4->setCollapsible(collapse);
@@ -149,7 +151,7 @@ CQGroupBoxTest(bool checkable, bool collapse, bool line)
 
   layout->addWidget(box4, 1, 0);
 
-  CQGroupBox *box5 = createGroup("group5", "", line);
+  auto *box5 = createGroup("group5", "", line);
 
   box5->setHasLineTop(line);
   box5->setHasLineBottom(line);
@@ -158,7 +160,7 @@ CQGroupBoxTest(bool checkable, bool collapse, bool line)
 
   layout->addWidget(box5, 1, 1);
 
-  CQGroupBox *box6 = createGroup("group6", "", line);
+  auto *box6 = createGroup("group6", "", line);
 
   box6->setHasLineTop(line);
   box6->setHasLineBottom(line);
@@ -169,14 +171,14 @@ CQGroupBoxTest(bool checkable, bool collapse, bool line)
 
   //---
 
-  QGroupBox *box7 = createGroupBox("group7", "Group 7");
+  auto *box7 = createGroupBox("group7", "Group 7");
 
   box7->setCheckable(checkable);
 //box7->setCollapsible(collapse);
 
   layout->addWidget(box7, 2, 0);
 
-  QGroupBox *box8 = createGroupBox("group8", "Group 8");
+  auto *box8 = createGroupBox("group8", "Group 8");
 
   box8->setStyleSheet(
   "QGroupBox { "
@@ -197,7 +199,7 @@ CQGroupBoxTest(bool checkable, bool collapse, bool line)
 
   layout->addWidget(box8, 2, 1);
 
-  QGroupBox *box9 = createGroupBox("group9");
+  auto *box9 = createGroupBox("group9");
 
   layout->addWidget(box9, 2, 2);
 }
